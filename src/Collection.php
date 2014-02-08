@@ -1,4 +1,4 @@
-<?php namespace Creolab\Resources\Collections;
+<?php namespace Creolab\Resources;
 
 use Illuminate\Support\Collection as IlluminateCollection;
 

@@ -1,27 +1,27 @@
 {
-    "name": "creolab/resources",
-    "description": "Helpers classes for dealing with resource collections and items.",
-    "keywords": ["collections", "resources", "api", "json"],
-    "homepage": "http://creolab.hr/",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Boris Strahija",
-            "email": "boris@creolab.hr",
-            "homepage": "http://creolab.hr/",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-        "illuminate/support": "~4",
-        "nesbot/carbon": "1.*"
-    },
-    "suggest": {
-        "creolab/image": "dev-master"
-    },
-    "autoload": {
-        "psr-4": {
-            "Creolab\\Resources\\": "src"
-        }
-    }
+	"name": "creolab/resources",
+	"description": "Helpers classes for dealing with resource collections and items.",
+	"keywords": ["collections", "resources", "api", "json"],
+	"homepage": "http://creolab.hr/",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Boris Strahija",
+			"email": "boris@creolab.hr",
+			"homepage": "http://creolab.hr/",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"illuminate/support": "~4",
+		"nesbot/carbon": "1.*"
+	},
+	"suggest": {
+		"creolab/image": "dev-master"
+	},
+	"autoload": {
+		"psr-4": {
+			"Creolab\\Resources\\": "src"
+		}
+	}
 }

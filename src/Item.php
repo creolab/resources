@@ -1,4 +1,4 @@
-<?php namespace App\Resources\Items;
+<?php namespace Creolab\Resources;
 
 use Str;
 
