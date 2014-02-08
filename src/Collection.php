@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Collection as IlluminateCollection;
 
-class BaseCollection extends IlluminateCollection {
+class Collection extends IlluminateCollection {
 
 	/**
 	 * Single item class

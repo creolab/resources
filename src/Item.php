@@ -2,7 +2,7 @@
 
 use Str;
 
-class BaseItem {
+class Item {
 
 	/**
 	 * Data for item
