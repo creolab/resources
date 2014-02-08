@@ -67,7 +67,7 @@ class Item {
 	 */
 	public function toArray()
 	{
-		$this->data = $this->transformDataBack($this->data);
+		$this->data = $this->transformer->transformDataBack($this->data);
 
 		return $this->data;
 	}
