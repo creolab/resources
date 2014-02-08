@@ -68,8 +68,11 @@ class Transformer {
 	 * @param  array $rules
 	 * @return array
 	 */
-	public function transformDataBack($data, $rules = null)
+	public function transformDataBack($data = null, $rules = null)
 	{
+		// The data
+		if ( ! $data) $data = $this->data;
+
 		// The rules
 		if ( ! $rules) $rules = $this->transform;
 
