@@ -1,6 +1,7 @@
 <?php namespace Creolab\Resources;
 
 use Carbon\Carbon;
+use Creolab\Image\ImageItem;
 
 class Transformer {
 
@@ -15,9 +16,9 @@ class Transformer {
 	 * @var array
 	 */
 	protected $defaultRules = array(
-		'created_at' => 'parse_datetime',
-		'updated_at' => 'parse_datetime',
-		'deleted_at' => 'parse_datetime',
+		'created_at' => 'datetime',
+		'updated_at' => 'datetime',
+		'deleted_at' => 'datetime',
 	);
 
 	/**
@@ -41,18 +42,19 @@ class Transformer {
 		if ( ! $data) $data = $this->data;
 
 		// The rules
-		if ( ! $rules) $rules = $this->transform;
+		if ( ! $rules) $rules = $this->rules;
 
 		// Merge the default ones in
-		$rules = array_merge($this->transformDefault, $rules);
+		$rules = array_merge($this->defaultRules, $rules);
 
 		foreach ($rules as $key => $rule)
 		{
 			if (isset($data[$key]))
 			{
-				if     ($rule == 'parse_datetime')                $data[$key] = Carbon::parse($data[$key]);
-				elseif ($rule == 'parse_time')                    $data[$key] = Carbon::parse($data[$key]);
-				elseif ($rule == 'parse_date')                    $data[$key] = Carbon::parse($data[$key]);
+				if     ($rule == 'datetime')                      $data[$key] = Carbon::parse($data[$key]);
+				elseif ($rule == 'time')                          $data[$key] = Carbon::parse($data[$key]);
+				elseif ($rule == 'date')                          $data[$key] = Carbon::parse($data[$key]);
+				elseif ($rule == 'image')                         $data[$key] = $this->transformImage($data[$key]);
 				elseif ($rule == 'strip_tags')                    $data[$key] = strip_tags($data[$key]);
 				elseif (is_string($rule) and class_exists($rule)) $data[$key] = new $rule($data[$key]);
 				elseif (is_array($rule))                          $data[$key] = $data[$key];
@@ -63,30 +65,43 @@ class Transformer {
 	}
 
 	/**
+	 * Create image object
+	 * @param  string $val
+	 * @return Image
+	 */
+	public function transformImage($val)
+	{
+		$image = new ImageItem($val);
+
+		return $image;
+	}
+
+	/**
 	 * Transform back data types to array/string values
 	 * @param  array $data
 	 * @param  array $rules
 	 * @return array
 	 */
-	public function transformDataBack($data = null, $rules = null)
+	public function transformBack($data = null, $rules = null)
 	{
 		// The data
 		if ( ! $data) $data = $this->data;
 
 		// The rules
-		if ( ! $rules) $rules = $this->transform;
+		if ( ! $rules) $rules = $this->rules;
 
 		// Merge the default ones in
-		$rules = array_merge($this->transformDefault, $rules);
+		$rules = array_merge($this->defaultRules, $rules);
 
 		foreach ($rules as $key => $rule)
 		{
 			if (isset($data[$key]))
 			{
-				if     ($rule == 'parse_datetime' and is_a($data[$key], 'Carbon'))  $data[$key] = $data[$key]->format('Y-m-d H:i:s');
-				elseif ($rule == 'parse_time' and is_a($data[$key], 'Carbon'))      $data[$key] = $data[$key]->format('H:i:s');
-				elseif ($rule == 'parse_date' and is_a($data[$key], 'Carbon'))      $data[$key] = $data[$key]->format('Y-m-d');
-				elseif (is_string($rule) and method_exists($data[$key], 'toArray')) $data[$key] = $data[$key]->toArray();
+				if     ($rule == 'datetime' and is_a($data[$key], 'Carbon'))                  $data[$key] = $data[$key]->format('Y-m-d H:i:s');
+				elseif ($rule == 'time'     and is_a($data[$key], 'Carbon'))                  $data[$key] = $data[$key]->format('H:i:s');
+				elseif ($rule == 'date'     and is_a($data[$key], 'Carbon'))                  $data[$key] = $data[$key]->format('Y-m-d');
+				elseif ($rule == 'image'    and is_a($data[$key], 'Creolab\Image\ImageItem')) $data[$key] = $data[$key]->src();
+				elseif (is_string($rule) and method_exists($data[$key], 'toArray'))           $data[$key] = $data[$key]->toArray();
 				// elseif (is_array($rule))       $data[$key] = $data[$key];
 			}
 		}
